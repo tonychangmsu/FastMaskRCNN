@@ -1,0 +1,4 @@
+cython
+Pillow
+scikit-image
+opencv-python
