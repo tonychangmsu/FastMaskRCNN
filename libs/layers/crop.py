@@ -31,11 +31,11 @@ def crop(images, boxes, batch_inds, stride = 1, pooled_height = 7, pooled_width 
     boxes = tf.concat([ys[:, tf.newaxis], xs[:, tf.newaxis]], axis=1)
     boxes = tf.reshape(boxes, [-1, 4])  # to (y1, x1, y2, x2)
     
-    # if batch_inds is False:
-    #   num_boxes = tf.shape(boxes)[0]
-    #   batch_inds = tf.zeros([num_boxes], dtype=tf.int32, name='batch_inds')
-    # batch_inds = boxes[:, 0] * 0
-    # batch_inds = tf.cast(batch_inds, tf.int32)
+    if batch_inds is False:
+      num_boxes = tf.shape(boxes)[0]
+      batch_inds = tf.zeros([num_boxes], dtype=tf.int32, name='batch_inds')
+    batch_inds = boxes[:, 0] * 0
+    batch_inds = tf.cast(batch_inds, tf.int32)
 
     # assert_op = tf.Assert(tf.greater(tf.shape(images)[0], tf.reduce_max(batch_inds)), [images, batch_inds])
     assert_op = tf.Assert(tf.greater(tf.size(images), 0), [images, batch_inds])

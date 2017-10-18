@@ -89,6 +89,7 @@ ENV/
 # Rope project settings
 .ropeproject
 
+*.sh
 data/coco   
 data/pretrained_models
 tags

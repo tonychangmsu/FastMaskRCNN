@@ -27,7 +27,7 @@ FLAGS = tf.app.flags.FLAGS
 with tf.Graph().as_default():
 
   image, ih, iw, gt_boxes, gt_masks, num_instances, img_id = \
-    coco.read('./data/coco/records/coco_trainval2014_00000-of-00048.tfrecord')
+    coco.read('./data/coco/records/coco_trainval2014_00000-of-00033.tfrecord')
   
   image, gt_boxes, gt_masks = \
     preprocess_coco.preprocess_image(image, gt_boxes, gt_masks)
@@ -69,5 +69,12 @@ with tf.Graph().as_default():
             for i in range(gt_boxes_np.shape[0]):
                 imd.rectangle(gt_boxes_np[i, :])
             im.save(str(img_id_np) + '.png')
+
+            mask = np.sum(gt_masks_np, axis=0, dtype='uint8')
+            white_pos = np.where(mask > 0)
+            mask[white_pos] = 255
+            mask_img = Image.fromarray(mask)
+            mask_img.save('mask_' + str(img_id_np) + '.png')
+
             # print (gt_boxes_np)
   sess.close()
